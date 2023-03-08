@@ -1,0 +1,175 @@
+<div class="member-list-header">
+  <h2 class="page-title">Members List</h2>
+  <div class="flex mr-5 m-2">
+    <form class="flex items-center mr-2">
+      <label for="simple-search" class="sr-only">Search</label>
+      <div class="relative w-full">
+        <div
+          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="simple-search"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search"
+          required
+        />
+      </div>
+    </form>
+    <a type="submit" href="http://localhost:4200/admin" target="_blank" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>      
+      Add Member
+    </a>
+  </div>
+</div>
+
+<div id="app" class="flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div
+        class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg"
+      >
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+              <div class="form-check mr-2">
+                <input type="checkbox" class="w-4 h-4 border-0 focus:ring-0" checked />
+              </div>
+                
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Member Id
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Name
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Mobile number
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Joining date
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Monthly amount
+              </th>
+              <th
+                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+              >
+                Status
+              </th>
+              <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let member of members" :key="i">
+              <td
+              class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap flex mt-2"
+            >
+            <div class="form-check mr-2">
+              <input type="checkbox" class="w-4 h-4 border-0 focus:ring-0" (change)="onChecked($event)"/>
+            </div>
+
+            <a (click)="navigateToAddMoney(member)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+              </svg>              
+            </a>
+            
+            </td>
+              <td
+                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+              >
+                {{ member.member_id }}
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" [src]="member.avatar" />
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium leading-5 text-gray-900">
+                      {{ member.first_name }} {{ member.last_name }}
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">
+                      {{ member.email }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td
+                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+              >
+                {{ member.mobile_number }}
+              </td>
+              <td
+                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+              >
+                {{ member.created_at }}
+              </td>
+              <td
+                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+              >
+                {{ member.monthly_amount }}
+              </td>
+              <td
+                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+              >
+                <div>
+                  <div class="">
+                    <select
+                      class="form-select px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      [(ngModel)]="member.status"
+                      (change)="onChangeStatus($event)"
+                    >
+                      <option selected>Status</option>
+                      <option value="active">Active</option>
+                      <option value="disable">Disable</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+              <td
+                class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap"
+              >
+              <a class="text-indigo-600 hover:text-indigo-900" (click)="navigateToDetailPage(member)">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                  </svg>      
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
