@@ -29,7 +29,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/tailwind_css_config.css"
+              "src/tailwind_css_config.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "src/assets/js/init-alpine.js"

@@ -11,7 +11,7 @@ const ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'members',
         pathMatch: 'full'  
       },
       {
@@ -21,6 +21,10 @@ const ROUTES: Routes = [
       {
         path: 'members',
         loadChildren: () => import('./pages/members/members.module').then(m => m.MembersModule)
+      },
+      {
+        path: 'logs',
+        loadChildren: () => import('./pages/logs/logs.module').then(m => m.LogsModule)
       },
     ]
   }

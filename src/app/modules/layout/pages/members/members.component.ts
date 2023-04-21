@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MembersService } from './Services/members.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-members',
@@ -9,41 +10,50 @@ import { MembersService } from './Services/members.service';
 })
 export class MembersComponent implements OnInit {
 
-  members:any = [];
-  memberStatus:any = '';
+  members: any = [];
+  memberStatus: any = '';
+  checkedMembers: any = [];
+  allChecked: any;
+  allMembersChecked: any;
+  searchBy:any;
+  searchTerm:any = ''
   constructor(
-    private $service: MembersService,
-    private $router: Router
+    public $service: MembersService,
+    private $router: Router,
+    private __toast: ToastrService,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.members = [
-      {
-        member_id: 'SG12',
-        first_name: 'Meet',
-        last_name: 'Shah',
-        middle_name: 'R',
-        mobile_number: '1234567890',
-        whatsapp_number: '1234567890',
-        dob: '12-2-1998',
-        address: 'Ahmedabad',
-        monthly_amount: '100',
-        user_type: 'volunteer',
-        added_by: '1',
-        image: '',
-        status: 'active',
-        email: 'abc@gmail.com',
-        created_at : '12/2/2020'
+    this.getAllMembers();
+  }
+
+  getAllMembers() {
+    this.$service.getAllMembers().subscribe({
+      next: (res: any) => {
+        this.members = res.data;
       }
-    ]
+    });
   }
 
-
-  onChangeStatus(event:any){
-    console.log(event.target.value);
+  onChangeStatus(event: any, memberId: any) {
+    let loggedInUser:any = localStorage.getItem('loggedInUser');
+    loggedInUser = JSON.parse(loggedInUser);
+    const obj = {
+      status: event.target.value,
+      modified_by: loggedInUser.id
+    }
+    this.$service.updateStatus(obj, memberId).subscribe({
+      next:(res: any)=>{
+        this.__toast.success('Status updated.');
+      },
+      error: (err)=> {
+        this.__toast.error(err.error.message);
+      }
+    });
   }
 
-  navigateToDetailPage(member:any){
+  navigateToDetailPage(member: any) {
     this.$service.setMemberDetails(member);
     this.$router.navigate(['/admin/members/manage']);
   }
@@ -53,7 +63,58 @@ export class MembersComponent implements OnInit {
     this.$router.navigate(['/admin/members/add-money']);
   }
 
-  onChecked(event: any){
-    console.log(event.target.value);
+  navigateToBulkAddMoney() {
+    this.$router.navigate(['/admin/members/add-money']);
+  }
+
+  onChecked(event: any, member: any) {
+    if (event) {
+      this.checkedMembers.push(member);
+      this.$service.setMembersMoneyArray(this.checkedMembers);
+      if(this.checkedMembers.length == this.members.length){
+        this.allMembersChecked = true;
+      }
+      this.changeRef.detectChanges();
+    } else {
+      this.checkedMembers = this.checkedMembers.filter((object: any) => {
+        return object.id !== member.id;
+      });
+      this.$service.setMembersMoneyArray(this.checkedMembers);
+      if(this.checkedMembers.length < this.members.length){
+        this.allMembersChecked = false;
+      }
+    }
+    this.changeRef.detectChanges();
+  }
+
+  allCheckBox(event: any) {
+    if(event){
+      this.checkedMembers = JSON.parse(JSON.stringify(this.members));
+      this.$service.setMembersMoneyArray(this.checkedMembers);
+      this.allChecked = true;
+      this.changeRef.detectChanges();
+    }else{
+      this.checkedMembers = [];
+      this.$service.setMembersMoneyArray(this.checkedMembers);
+      this.allChecked = false;
+      this.changeRef.detectChanges();
+    }
+  }
+
+  onSearch() {
+    if(this.searchBy && this.searchTerm) {
+      const postData = {
+        searchBy: this.searchBy,
+        searchTerm: this.searchTerm
+      };
+      this.$service.searchUser(postData).subscribe({
+        next:(res:any)=>{
+          this.members = res.data;
+        },
+        error:(err:any)=>{
+          console.log(err);
+        }
+      })
+    }
   }
 }

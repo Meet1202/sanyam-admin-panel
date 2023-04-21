@@ -1,80 +1,85 @@
 <div class="member-list-header">
-    <h2 class="page-title">Add Money</h2>
+    <div class="flex justify-between mr-5 m-2">
+    <h2 class="page-title">Logs</h2>
+      <select
+      class="form-select px-3 mr-2 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+      (change)="onChange($event)" name="filterBy"
+      [(ngModel)]="filterBy"
+    >
+      <option value="ALL" selected>All</option>
+      <option *ngFor="let volunteer of volunteers" value={{volunteer.id}}>{{volunteer.first_name}}&nbsp;{{volunteer.surname}}</option>
+    </select>
+    </div>
   </div>
-
-<div id="app" class="flex flex-col">
+  
+  <div id="app" class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block py-2 align-middle sm:px-6 lg:px-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div
-          class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg text-center"
+          class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg"
         >
-          <table class="divide-y divide-gray-200">
+          <table class="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
                 <th
-                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
-              >
-               Sr. no.
-              </th>
-                <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
                 >
-                  Member Id
+                  Sr.no.
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
                 >
-                  Name
+                  Volunteer
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
                 >
-                  Monthly amount
+                  Member
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
                 >
                   Payment date
                 </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50"
+                >
+                  Amount
+                </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr *ngFor="let member of membersMoneyArr; let i = index">
+              <tr *ngFor="let log of logs; let i=index" :key="i">
                 <td
                   class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
                 >
-                  {{ i+1 }}
+                  {{i+1}}
                 </td>
                 <td
                   class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
                 >
-                  {{ member.member_id }}
+                  {{ log.volunteer_name }}
                 </td>
                 <td
                   class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
                 >
-                {{member.first_name}} {{member.surname}}
+                  {{ log.member_name }}
                 </td>
                 <td
                   class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
                 >
-                <input [(ngModel)]="member.monthly_amount"/>
+                {{ log.payment_date | date : "dd/MM/yyyy"}}
                 </td>
-
                 <td
-                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap">
-                  <input type="date"
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  [(ngModel)]="member['payment_date']"/>
+                  class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap"
+                >
+                {{ log.amount }}
                 </td>
               </tr>
             </tbody>
           </table>
-
-          <a (click)="addMoney()" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">  
-            Save Money
-          </a>
         </div>
       </div>
     </div>
   </div>
+  
